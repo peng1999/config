@@ -22,7 +22,7 @@ function try_link
 end
 
 function vimrc
-    try_link ./vimrc/vimrc ~/.vim/
+    try_link $PWD/vimrc/vimrc ~/.vim/
 end
 
 function vundle
@@ -38,10 +38,24 @@ end
 function vim_plugin
     vimrc
     vundle
-    try_link ./vimrc/plugin.vim ~/.vim/
+    try_link $PWD/vimrc/plugin.vim ~/.vim/
     vim -c 'execute "PluginInstall" | qa'
 end
 
 function git_config
     git config credential.helper cache
+end
+
+for cmd in $argv
+    switch $cmd
+        case "vimrc"
+            vimrc
+        case "vundle"
+            vundle
+        case "vim_plugin"
+            vim_plugin
+        case '*'
+            echo something bad happend
+            exit 1
+    end
 end
