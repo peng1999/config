@@ -15,14 +15,14 @@ function try_link
     if test -e $dist
         echo $dist already exists, skiped
     else
-        ensure_dir $dist
+        ensure_dir (dirname $dist)
         echo link $dist to $src...
         ln -s $src $dist
     end
 end
 
 function vimrc
-    try_link $PWD/vimrc/vimrc ~/.vim/
+    try_link $PWD/vimrc/vimrc ~/.vim/vimrc
 end
 
 function vundle
@@ -38,7 +38,7 @@ end
 function vim_plugin
     vimrc
     vundle
-    try_link $PWD/vimrc/plugin.vim ~/.vim/
+    try_link $PWD/vimrc/plugin.vim ~/.vim/plugin.vim
     vim -c 'execute "PluginInstall" | qa'
 end
 
