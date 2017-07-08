@@ -1,11 +1,19 @@
 # config
 My configs, and a setup shell, which is aimed to quickly and easily setup my working environment.
 
+## installation
+Use git to clone this repository, then run `./setup`:
+
+```bash
+git clone https://github.com/peng1999/config.git --recursive
+./setup <functions>
+```
+
 Currently supported functions:
-- [x] vim
+- [ ] vim
     - [x] vimrc
         Add `~/tmp/vimundo` and `~/tmp/vimbackup` folder
-    - [x] plugin.vim
+    - [x] vim_plugin
 - [ ] zsh
     - [ ] oh-my-zsh
     - [ ] zshrc
@@ -18,3 +26,5 @@ Currently supported functions:
     - [ ] rustup
         - [ ] rustup completions
     - [ ] ?mirrior
+- [x] git_config
+    - cache credential
