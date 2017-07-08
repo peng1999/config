@@ -1,0 +1,16 @@
+- vim
+    - vimrc
+        Add `~/tmp/vimundo` and `~/tmp/vimbackup` folder
+    - plugin.vim
+- zsh
+    - oh-my-zsh
+    - zshrc
+- fish
+    - config.fish
+    - fisher
+    - z
+    - fzf
+- rust
+    - rustup
+        - rustup completions
+    - ?mirrior

@@ -1,0 +1,47 @@
+#!/usr/bin/fish
+#make -f install.mk $argv
+
+function ensure_dir
+    set dir $argv[1]
+    if not test -e $dir
+        echo "$dir don't exists, creat it"
+        mkdir -p $dir
+    end
+end
+
+function try_link
+    set src $argv[1]
+    set dist $argv[2]
+    if test -e $dist
+        echo $dist already exists, skiped
+    else
+        ensure_dir $dist
+        echo link $dist to $src...
+        ln -s $src $dist
+    end
+end
+
+function vimrc
+    try_link ./vimrc/vimrc ~/.vim/
+end
+
+function vundle
+    set vpath ~/.vim/bundle/Vundle.vim
+    if test -e $vpath
+        echo $vpath already exists, skiped
+    else
+        echo install Vundle...
+        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    end
+end
+
+function vim_plugin
+    vimrc
+    vundle
+    try_link ./vimrc/plugin.vim ~/.vim/
+    vim -c 'execute "PluginInstall" | qa'
+end
+
+function git_config
+    git config credential.helper cache
+end
