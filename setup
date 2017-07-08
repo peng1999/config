@@ -55,6 +55,8 @@ for cmd in $argv
             vundle
         case "vim_plugin"
             vim_plugin
+        case "git_config"
+            git_config
         case '*'
             echo something bad happend
             exit 1
