@@ -22,6 +22,8 @@ function try_link
 end
 
 function vimrc
+    ensure_dir ~/tmp/vimundo
+    ensure_dir ~/tmp/vimbackup
     try_link $PWD/vimrc/vimrc ~/.vim/vimrc
 end
 

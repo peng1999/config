@@ -11,7 +11,7 @@ git clone https://github.com/peng1999/config.git --recursive
 
 Currently supported functions:
 - [ ] vim
-    - [x] vimrc
+    - [x] vimrc  
         Add `~/tmp/vimundo` and `~/tmp/vimbackup` folder
     - [x] vim_plugin
 - [ ] zsh
