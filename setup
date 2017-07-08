@@ -4,7 +4,7 @@
 function ensure_dir
     set dir $argv[1]
     if not test -e $dir
-        echo "$dir don't exists, creat it"
+        echo "$dir don't exist, creat it"
         mkdir -p $dir
     end
 end
@@ -30,7 +30,7 @@ function vundle
     if test -e $vpath
         echo $vpath already exists, skiped
     else
-        echo install Vundle...
+        echo Install Vundle...
         git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
     end
 end
@@ -39,6 +39,7 @@ function vim_plugin
     vimrc
     vundle
     try_link $PWD/vimrc/plugin.vim ~/.vim/plugin.vim
+    echo Install Vim plugins...
     vim -c 'execute "PluginInstall" | qa'
 end
 
