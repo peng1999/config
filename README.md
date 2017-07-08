@@ -13,7 +13,7 @@ Currently supported functions:
     - [ ] config.fish
     - [ ] fisher
     - [ ] z
-    - fzf
+    - [ ] fzf
 - [ ] rust
     - [ ] rustup
         - [ ] rustup completions
