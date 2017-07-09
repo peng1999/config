@@ -60,7 +60,7 @@ function oh_my_zsh
         echo Oh My Zsh exists, skiped
     else
         echo install Oh My Zsh...
-        sh -c (curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)
+        curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
     end
 end
 
