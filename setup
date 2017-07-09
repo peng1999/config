@@ -1,5 +1,14 @@
 #!/usr/bin/fish
 #make -f install.mk $argv
+function check
+    echo $argv
+    eval $argv
+    set s $status
+    if not test $s = 0
+	echo not 0
+	exit $s
+    end
+end
 
 function ensure_dir
     set dir $argv[1]
@@ -45,22 +54,41 @@ function vim_plugin
     vim -c 'execute "PluginInstall" | qa'
 end
 
+function oh_my_zsh
+    set zpath ~/.oh-my-zsh/
+    if test -e $zpath
+        echo Oh My Zsh exists, skiped
+    else
+        echo install Oh My Zsh...
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    end
+end
+
+function zshrc
+    oh_my_zsh
+    try_link $PWD/zshrc ~/.zshrc
+end
+
 function git_config
     git config credential.helper cache
 end
 
 for cmd in $argv
     switch $cmd
-        case "vimrc"
+        case vimrc
             vimrc
-        case "vundle"
+        case vundle
             vundle
-        case "vim_plugin"
+        case vim_plugin
             vim_plugin
-        case "git_config"
+        case oh_my_zsh
+            oh_my_zsh
+        case zshrc
+            zshrc
+        case git_config
             git_config
         case '*'
-            echo something bad happend
+            echo "The command doesn't exist"
             exit 1
     end
 end
