@@ -70,6 +70,10 @@ function zshrc
     check ln $PWD/zshrc ~/.zshrc
 end
 
+function config.fish
+    try_link config.fish ~/.config/fish/config.fish
+end
+
 function git_config
     git config credential.helper cache
 end
@@ -86,6 +90,8 @@ for cmd in $argv
             oh_my_zsh
         case zshrc
             zshrc
+        case config.fish
+            config.fish
         case git_config
             git_config
         case '*'
