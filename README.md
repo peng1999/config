@@ -19,7 +19,7 @@ Currently supported functions:
     - [x] `zshrc`
 - fish
     - [x] `config.fish`
-    - [ ] `fisher`
+    - [x] `fisher`
     - [ ] `z`
     - [ ] `fzf`
 - rust
