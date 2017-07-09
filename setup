@@ -75,9 +75,9 @@ function config.fish
 end
 
 function fisherman
-    set fpath ~/.config/fish/functions/fisher.fish
-    if test -e $fpath
-        echo $fpath exists, skiped
+    config.fish
+    if type -q fisher
+        echo command fisher exists, skiped
     else
         echo getting fisherman...
         curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
