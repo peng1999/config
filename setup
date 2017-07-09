@@ -26,7 +26,7 @@ function try_link
     else
         ensure_dir (dirname $dist)
         echo link $dist to $src...
-        ln -s $src $dist
+        ln -rs $src $dist
     end
 end
 
@@ -71,7 +71,7 @@ function zshrc
 end
 
 function config.fish
-    try_link config.fish ~/.config/fish/config.fish
+    try_link $PWD/config.fish ~/.config/fish/config.fish
 end
 
 function fisherman
