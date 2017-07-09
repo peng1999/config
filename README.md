@@ -11,21 +11,21 @@ git clone https://github.com/peng1999/config.git --recursive
 
 Currently supported functions:
 - vim
-    - [x] vimrc  
+    - [x] `vimrc`  
         Add `~/tmp/vimundo` and `~/tmp/vimbackup` folder
-    - [x] vim_plugin
+    - [x] `vim_plugin`
 - zsh
-    - [x] oh_my_zsh
-    - [x] zshrc
+    - [x] `oh_my_zsh`
+    - [x] `zshrc`
 - fish
-    - [ ] config.fish
-    - [ ] fisher
-    - [ ] z
-    - [ ] fzf
+    - [x] `config.fish`
+    - [ ] `fisher`
+    - [ ] `z`
+    - [ ] `fzf`
 - rust
-    - [ ] rustup
-        - [ ] rustup_completions
+    - [ ] `rustup`
+        - [ ] `rustup_completions`
     - [ ] ?mirrior
 - git
-    - [x] git_config  
+    - [x] `git_config`  
         cache credential

@@ -57,7 +57,7 @@ end
 function oh_my_zsh
     set zpath ~/.oh-my-zsh/
     if test -e $zpath
-        echo Oh My Zsh exists, skiped
+        echo $zpath exists, skiped
     else
         echo install Oh My Zsh...
         curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
@@ -72,6 +72,16 @@ end
 
 function config.fish
     try_link config.fish ~/.config/fish/config.fish
+end
+
+function fisherman
+    set fpath ~/.config/fish/functions/fisher.fish
+    if test -e $fpath
+        echo $fpath exists, skiped
+    else
+        echo getting fisherman...
+        curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
+    end
 end
 
 function git_config
@@ -92,6 +102,8 @@ for cmd in $argv
             zshrc
         case config.fish
             config.fish
+        case fisherman
+            fisherman
         case git_config
             git_config
         case '*'
