@@ -9,7 +9,7 @@ git clone https://github.com/peng1999/config.git --recursive
 ./setup <functions>
 ```
 
-Currently supported functions:
+## Currently supported functions:
 - vim
     - [x] `vimrc`  
         Add `~/tmp/vimundo` and `~/tmp/vimbackup` folder
@@ -20,8 +20,7 @@ Currently supported functions:
 - fish
     - [x] `config.fish`
     - [x] `fisher`
-    - [ ] `z`
-    - [ ] `fzf`
+    - [ ] `fisher_plugin`
 - rust
     - [ ] `rustup`
         - [ ] `rustup_completions`
