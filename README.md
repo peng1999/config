@@ -20,7 +20,8 @@ git clone https://github.com/peng1999/config.git --recursive
 - fish
     - [x] `config.fish`
     - [x] `fisher`
-    - [ ] `fisher_plugin`
+    - [ ] `fisher_plugin`  
+        This installs z, fzf, mars, g2 and thefuck
 - rust
     - [ ] `rustup`
         - [ ] `rustup_completions`
