@@ -67,7 +67,9 @@ end
 function zshrc
     oh_my_zsh
     rm ~/.zshrc
-    check ln $PWD/zshrc ~/.zshrc
+    set synhi ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    test ! -d $synhi; and check zsh -c '\'git clone -q https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting\''
+    check ln -rs $PWD/zshrc ~/.zshrc
 end
 
 function config.fish
