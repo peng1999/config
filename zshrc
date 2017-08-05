@@ -89,3 +89,6 @@ bindkey '^N' history-substring-search-down
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias rm="echo This is not the command you are looking for.; false"
 eval $(thefuck --alias)
+
+# added by travis gem
+[ -f /home/pgw/.travis/travis.sh ] && source /home/pgw/.travis/travis.sh
