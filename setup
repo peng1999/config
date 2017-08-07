@@ -65,7 +65,7 @@ function vim_plugin
     vundle
     try_link $PWD/vimrc/plugin.vim ~/.vim/plugin.vim
     # echo Install Vim plugins...
-    check vim -c 'execute "PluginInstall" | qa'
+    check 'vim -c \'execute "PluginInstall" | qa\''
 end
 
 function oh_my_zsh
