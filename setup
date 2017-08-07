@@ -10,24 +10,36 @@ function check
     end
 end
 
-function ensure_dir
-    set dir $argv[1]
-    if not test -e $dir
-        echo "$dir don't exist, creat it"
-        mkdir -p $dir
+function test_not_exist -a dir
+    if test ! -e $dir
+        return 0
+    else
+        echo $dir exists!
+        return 1
     end
 end
 
-function try_link
-    set src $argv[1]
-    set dist $argv[2]
-    if test -e $dist
-        echo $dist already exists, skiped
-    else
-        ensure_dir (dirname $dist)
-        echo link $dist to $src...
-        ln -rs $src $dist
-    end
+function ensure_dir -a dir
+    # if not test -e $dir
+    #     echo "$dir don't exist, creat it"
+    #     mkdir -p $dir
+    # end
+    test_not_exist $dir
+    and check mkdir -p $dir
+end
+
+function try_link -a src dist
+    # if test -e $dist
+    #     echo $dist already exists, skiped
+    # else
+    #     ensure_dir (dirname $dist)
+    #     echo link $dist to $src...
+    #     ln -rs $src $dist
+    # end
+    test_not_exist $dist; or return
+
+    ensure_dir (dirname $dist)
+    check ln -rs $src $dist
 end
 
 function vimrc
@@ -38,37 +50,41 @@ end
 
 function vundle
     set vpath ~/.vim/bundle/Vundle.vim
-    if test -e $vpath
-        echo $vpath already exists, skiped
-    else
-        echo Install Vundle...
-        git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    end
+    # if test -e $vpath
+    #     echo $vpath already exists, skiped
+    # else
+    #     echo Install Vundle...
+    #     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    # end
+    test_not_exist $vpath; or return
+    check git clone https://github.com/VundleVim/Vundle.vim.git $vpath
 end
 
 function vim_plugin
     vimrc
     vundle
     try_link $PWD/vimrc/plugin.vim ~/.vim/plugin.vim
-    echo Install Vim plugins...
-    vim -c 'execute "PluginInstall" | qa'
+    # echo Install Vim plugins...
+    check vim -c 'execute "PluginInstall" | qa'
 end
 
 function oh_my_zsh
     set zpath ~/.oh-my-zsh/
-    if test -e $zpath
-        echo $zpath exists, skiped
-    else
-        echo install Oh My Zsh...
-        curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-    end
+    # if test -e $zpath
+    #     echo $zpath exists, skiped
+    # else
+    #     echo install Oh My Zsh...
+    #     curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+    # end
+    echo install Oh My Zsh...
+    check sh -c '$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)'
 end
 
 function zshrc
     oh_my_zsh
     rm ~/.zshrc
     set synhi ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    test ! -d $synhi; and check zsh -c '\'git clone -q https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting\''
+    test_not_exist $synhi; and check zsh -c '\'git clone -q https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting\''
     check ln -rs $PWD/zshrc ~/.zshrc
 end
 
