@@ -92,3 +92,5 @@ eval $(thefuck --alias)
 
 # added by travis gem
 [ -f /home/pgw/.travis/travis.sh ] && source /home/pgw/.travis/travis.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

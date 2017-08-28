@@ -48,24 +48,19 @@ function vimrc
     try_link $PWD/vimrc/vimrc ~/.vim/vimrc
 end
 
-function vundle
-    set vpath ~/.vim/bundle/Vundle.vim
-    # if test -e $vpath
-    #     echo $vpath already exists, skiped
-    # else
-    #     echo Install Vundle...
-    #     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    # end
-    test_not_exist $vpath; or return
-    check git clone https://github.com/VundleVim/Vundle.vim.git $vpath
+function vim_plug
+    set path ~/.vim/autoload/plug.vim
+    test_not_exist $path; or return
+    check curl -fLo $path --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 end
 
 function vim_plugin
     vimrc
-    vundle
+    vim_plug
     try_link $PWD/vimrc/plugin.vim ~/.vim/plugin.vim
     # echo Install Vim plugins...
-    check 'vim -c \'execute "PluginInstall" | qa\''
+    check 'vim -c \'execute "PlugInstall" | qa\''
 end
 
 function oh_my_zsh
@@ -110,8 +105,8 @@ for cmd in $argv
     switch $cmd
         case vimrc
             vimrc
-        case vundle
-            vundle
+        case vim_plug
+            vim_plug
         case vim_plugin
             vim_plugin
         case oh_my_zsh
