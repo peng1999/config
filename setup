@@ -98,7 +98,7 @@ function fisherman
 end
 
 function git_config
-    git config credential.helper cache
+    git config --global credential.helper cache
 end
 
 for cmd in $argv
