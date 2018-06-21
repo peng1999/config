@@ -49,6 +49,7 @@ function vimrc
 end
 
 function nvim_init
+    ensure_dir ~/.local/share/nvim/undo
     try_link $PWD/vimrc/vimrc ~/.config/nvim/init.vim
 end
 
