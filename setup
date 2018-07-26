@@ -121,6 +121,14 @@ function git_config
     git config --global credential.helper cache
 end
 
+set cmds vimrc vim_plug vim_plugin \
+         nvim_init nvim_plug nvim_plugin \
+         oh_my_zsh zshrc \
+         config.fish fisherman \
+         git_config
+
+complete -x -c setup -a "$cmds"
+
 for cmd in $argv
     switch $cmd
         case vimrc
