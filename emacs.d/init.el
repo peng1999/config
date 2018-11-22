@@ -32,63 +32,72 @@
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 
+(add-to-list 'load-path "~/.emacs.d/elpa")
 
-;; load el-get
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil 'noerror)
+(package-initialize)
+(unless (require 'use-package nil 'noerror)
+  (message "Reached use-package non nil")
   (package-refresh-contents)
-  (package-initialize)
-  (package-install 'el-get)
-  (require 'el-get))
+  ;; (package-initialize)
+  (package-install 'use-package)
+  (require 'use-package))
 
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 ;; load packages
-(el-get-bundle smex
+(use-package smex
+  :ensure t
+  :config
   (smex-initialize)
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
-(el-get-bundle company-mode
-  (add-hook 'after-init-hook 'global-company-mode))
+(use-package company
+  :ensure t
+  :hook (after-init . global-company-mode))
 
-(el-get-bundle evil
+(use-package evil
+  :ensure t
+  :config
   (evil-mode 1)
-  (evil-set-initial-state 'org-mode 'emacs))
+  ;;(evil-set-initial-state 'org-mode 'emacs)
+  (evil-set-initial-state 'term-mode nil))
 
-(el-get-bundle rust-mode)
+(use-package magit
+  :ensure t)
 
-(el-get-bundle lsp-mode)
+(use-package rust-mode
+  :ensure t)
 
-;; enable rust mode lsp
-(require 'lsp-mode)
-(lsp-define-stdio-client
- lsp-rust-mode
- "rust"
- (lambda () default-directory)
- '("rustup" "run" "nightly" "rls"))
+(use-package lsp-mode
+  :ensure t
+  :config
+  ;; enable rust mode lsp
+  (lsp-define-stdio-client
+   lsp-rust-mode
+   "rust"
+   (lambda () default-directory)
+   '("rustup" "run" "nightly" "rls"))
 
-(lsp-define-stdio-client
- lsp-ccls-mode
- "c++"
- (lambda () default-directory)
- '("ccls"))
+  ;; enable ccls mode
+  (lsp-define-stdio-client
+   lsp-ccls-mode
+   "c++"
+   (lambda () default-directory)
+   '("ccls"))
 
-(add-hook 'rust-mode-hook #'lsp-rust-mode-enable)
-(add-hook 'c++-mode-hook #'lsp-ccls-mode-enable)
-
-(el-get-bundle flycheck)
-  ;;(global-flycheck-mode))
-(el-get-bundle lsp-ui
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  (add-hook 'lsp-mode-hook 'flycheck-mode))
-(el-get-bundle company-lsp)
-;; ;; rust
-;; (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
-;; (el-get-bundle lsp-rust)
-
-(package-initialize)
+  :hook
+  ((rust-mode . lsp-rust-mode-enable)
+   (c++-mode . lsp-ccls-mode-enable)))
+(use-package flycheck
+  :ensure t)
+(use-package lsp-ui
+  :ensure t
+  :after (lsp-mode flycheck)
+  :hook
+  ((lsp-mode . lsp-ui-mode)
+   (lsp-mode . flycheck-mode)))
+(use-package company-lsp
+  :ensure t)
 
 
 ;; org-mode config
@@ -97,11 +106,19 @@
 (setq org-log-done t)
 
 
+;; electric pair mode
+(add-hook 'after-init-hook 'electric-pair-mode)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(backup-directory-alist (quote ((".*" . "~/.local/share/emacs/backup"))))
  '(c-basic-offset 4)
  '(c-default-style
@@ -114,11 +131,15 @@
  '(column-number-mode t)
  '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 1)
- '(evil-default-state (quote emacs))
+ '(custom-enabled-themes (quote (manoj-dark)))
  '(indent-tabs-mode nil)
+ '(inhibit-startup-screen t)
  '(org-M-RET-may-split-line nil)
  '(org-agenda-files (quote ("~/documents/note.org")))
- '(package-selected-packages (quote (smex)))
+ '(package-selected-packages
+   (quote
+    (magit use-package smex rust-mode lsp-ui evil el-get company-lsp)))
+ '(url-proxy-services (quote (("http" . "localhost:1080"))))
  '(xterm-mouse-mode t))
 
 (custom-set-faces
