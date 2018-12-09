@@ -44,7 +44,6 @@
 
 ;; load packages
 (use-package smex
-  :ensure t
   :config
   (smex-initialize)
   (global-set-key (kbd "M-x") 'smex)
@@ -52,15 +51,18 @@
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
 (use-package company
-  :ensure t
   :hook (after-init . global-company-mode))
 
 (use-package evil
-  :ensure t
   :config
   (evil-mode 1)
-  ;;(evil-set-initial-state 'org-mode 'emacs)
-  (evil-set-initial-state 'term-mode nil))
+  ;; (evil-set-initial-state 'org-mode 'emacs)
+  (evil-set-initial-state 'term-mode 'emacs)
+  (evil-set-initial-state 'comint-mode 'emacs))
+
+(use-package fcitx
+  :config
+  (fcitx-default-setup))
 
 (use-package magit
   :ensure t)
@@ -99,6 +101,20 @@
 (use-package company-lsp
   :ensure t)
 
+(use-package pdf-tools
+  :ensure t)
+  ;;:hook (doc-view-mode . pdf-tools-install))
+
+
+;; setup maxima
+(add-to-list 'load-path "/usr/share/emacs/site-lisp")
+(autoload 'maxima-mode "maxima" "Maxima mode" t)
+(autoload 'imaxima "imaxima" "Frontend for maxima with Image support" t)
+(autoload 'maxima "maxima" "Maxima interaction" t)
+(autoload 'imath-mode "imath" "Imath mode for math formula input" t)
+(setq imaxima-use-maxima-mode-flag t)
+(add-to-list 'auto-mode-alist '("\\.ma[cx]" . maxima-mode))
+
 
 ;; org-mode config
 (define-key global-map "\C-cl" 'org-store-link)
@@ -129,31 +145,24 @@
      (awk-mode . "awk")
      (other . "gnu"))))
  '(column-number-mode t)
+ '(company-global-modes (quote (not org-mode)))
  '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 1)
  '(custom-enabled-themes (quote (manoj-dark)))
+ '(eww-search-prefix "https://www.google.com/search?q=")
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(org-M-RET-may-split-line nil)
  '(org-agenda-files (quote ("~/documents/note.org")))
+ '(org-hide-leading-stars t)
+ '(org-pretty-entities t)
  '(package-selected-packages
    (quote
-    (magit use-package smex rust-mode lsp-ui evil el-get company-lsp)))
+    (fcitx magit use-package smex rust-mode lsp-ui evil el-get company-lsp)))
  '(url-proxy-services (quote (("http" . "localhost:1080"))))
  '(xterm-mouse-mode t))
 
-;; These comments are used in termial
- ;; '(company-preview ((t (:background "gold3" :foreground "black"))))
- ;; '(company-preview-common ((t (:background "gold3" :foreground "grey20"))))
- ;; '(company-preview-search ((t (:background "green4" :foreground "green"))))
- ;; '(company-scrollbar-bg ((t (:background "#303030"))))
- ;; '(company-scrollbar-fg ((t (:background "#404040"))))
- ;; '(company-tooltip ((t (:background "#202020" :foreground "grey"))))
- ;; '(company-tooltip-annotation ((t (:foreground "gold"))))
- ;; '(company-tooltip-annotation-selection ((t (:foreground "white"))))
- ;; '(company-tooltip-common ((t (:inherit company-tooltip :foreground "white"))))
- ;; '(company-tooltip-common-selection ((t (:foreground "white"))))
- ;; '(company-tooltip-selection ((t (:background "red3" :foreground "white")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
