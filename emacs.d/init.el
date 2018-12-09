@@ -33,6 +33,7 @@
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 
 (add-to-list 'load-path "~/.emacs.d/elpa")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp")
 
 (package-initialize)
 (unless (require 'use-package nil 'noerror)
@@ -86,8 +87,12 @@
    '("ccls"))
 
   :hook
-  ((rust-mode . lsp-rust-mode-enable)
-   (c++-mode . lsp-ccls-mode-enable)))
+  (c++-mode . lsp-ccls-mode-enable))
+(use-package lsp-rust
+  :after lsp-mode
+  :init (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+  ;; :hook (rust-mode . lsp-rust-mode-enable))
+  )
 (use-package flycheck
   :ensure t)
 (use-package lsp-ui
@@ -132,10 +137,12 @@
  '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 1)
  '(custom-enabled-themes (quote (manoj-dark)))
+ '(gdb-show-main t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(org-M-RET-may-split-line nil)
- '(org-agenda-files (quote ("~/documents/note.org")))
+ '(org-agenda-files nil)
+ '(org-hide-leading-stars t)
  '(package-selected-packages
    (quote
     (magit use-package smex rust-mode lsp-ui evil el-get company-lsp)))
