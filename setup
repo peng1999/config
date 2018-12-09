@@ -84,22 +84,13 @@ function nvim_plugin
 end
 
 function oh_my_zsh
-    set zpath ~/.oh-my-zsh/
-    # if test -e $zpath
-    #     echo $zpath exists, skiped
-    # else
-    #     echo install Oh My Zsh...
-    #     curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-    # end
-    echo install Oh My Zsh...
-    check sh -c '$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)'
+    set zpath ~/.antigen
+    ensure_dir $zpath/antigen
+    check git clone https://github.com/zsh-users/antigen.git $zpath/antigen/
 end
 
 function zshrc
     oh_my_zsh
-    rm ~/.zshrc
-    set synhi ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    test_not_exist $synhi; and check zsh -c '\'git clone -q https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting\''
     check ln -rs $PWD/zshrc ~/.zshrc
 end
 
