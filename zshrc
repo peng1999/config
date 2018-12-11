@@ -14,6 +14,8 @@ antigen bundle colored-man-pages
 antigen bundle z
 antigen bundle extract
 
+# config for z
+export _Z_DATA=$HOME/.local/share/z/data
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
