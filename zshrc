@@ -31,3 +31,4 @@ if which bat >/dev/null; then
     export BAT_STYLE=plain
     alias cat=bat
 fi
+
