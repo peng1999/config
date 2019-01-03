@@ -78,7 +78,7 @@
    lsp-rust-mode
    "rust"
    (lambda () default-directory)
-   '("rustup" "run" "nightly" "rls"))
+   '("rls"))
 
   ;; enable ccls mode
   (lsp-define-stdio-client
@@ -100,10 +100,19 @@
    (lsp-mode . flycheck-mode)))
 (use-package company-lsp
   :ensure t)
+;; (use-package lsp-rust
+;;   :after (lsp-mode company-lsp flycheck)
+;;   :init
+;;   (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+;;   :hook
+;;   (rust-mode . lsp-rust-enable))
 
 (use-package pdf-tools
   :ensure t)
   ;;:hook (doc-view-mode . pdf-tools-install))
+
+(use-package auctex
+  :hook (LaTeX-mode . LaTeX-math-mode))
 
 
 ;; setup maxima
@@ -131,6 +140,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(LaTeX-command "xelatex")
+ '(TeX-engine (quote xetex))
+ '(TeX-view-program-selection
+   (quote
+    (((output-dvi has-no-display-manager)
+      "dvi2tty")
+     ((output-dvi style-pstricks)
+      "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "PDF Tools")
+     (output-html "xdg-open"))))
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
@@ -149,17 +169,46 @@
  '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 1)
  '(custom-enabled-themes (quote (manoj-dark)))
+ '(doc-view-continuous t)
  '(eww-search-prefix "https://www.google.com/search?q=")
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(org-M-RET-may-split-line nil)
  '(org-agenda-files (quote ("~/documents/note.org")))
+ '(org-export-backends (quote (ascii html latex md odt)))
  '(org-hide-leading-stars t)
+ '(org-latex-classes
+   (quote
+    (("ctexart" "\\documentclass[UTF8]{ctexart}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+     ("article" "\\documentclass[11pt]{article}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+     ("report" "\\documentclass[11pt]{report}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("book" "\\documentclass[11pt]{book}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))
+ '(org-latex-default-class "ctexart")
  '(org-pretty-entities t)
  '(package-selected-packages
    (quote
-    (fcitx magit use-package smex rust-mode lsp-ui evil el-get company-lsp)))
+    (lsp-rust auctex fcitx magit use-package smex rust-mode lsp-ui evil company-lsp flycheck pdf-tools)))
  '(url-proxy-services (quote (("http" . "localhost:1080"))))
  '(xterm-mouse-mode t))
 
