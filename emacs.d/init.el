@@ -108,11 +108,12 @@
 ;;   (rust-mode . lsp-rust-enable))
 
 (use-package pdf-tools
-  :ensure t)
-  ;;:hook (doc-view-mode . pdf-tools-install))
+  :ensure t
+  :hook (doc-view-mode . pdf-tools-install))
 
 (use-package auctex
   :hook (LaTeX-mode . LaTeX-math-mode))
+(add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
 
 ;; setup maxima
@@ -170,7 +171,9 @@
  '(company-minimum-prefix-length 1)
  '(custom-enabled-themes (quote (manoj-dark)))
  '(doc-view-continuous t)
+ '(doc-view-resolution 300)
  '(eww-search-prefix "https://www.google.com/search?q=")
+ '(imaxima-fnt-size "huge")
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
@@ -208,8 +211,8 @@
  '(org-pretty-entities t)
  '(package-selected-packages
    (quote
-    (lsp-rust auctex fcitx magit use-package smex rust-mode lsp-ui evil company-lsp flycheck pdf-tools)))
- '(url-proxy-services (quote (("http" . "localhost:1080"))))
+    (lsp-rust auctex fcitx magit use-package smex rust-mode lsp-ui evil company-lsp flycheck)))
+ '(url-proxy-services (quote (("socks5" . "localhost:1080"))))
  '(xterm-mouse-mode t))
 
 (custom-set-faces
@@ -217,4 +220,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 163 :width normal)))))
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "DAMA" :slant normal :weight normal :height 163 :width normal)))))
