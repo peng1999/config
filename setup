@@ -112,6 +112,12 @@ function git_config
     git config --global credential.helper cache
 end
 
+function tmux
+    set path ~/.tmux/plugins/tpm
+    test_not_exist $path; and check git clone https://github.com/tmux-plugins/tpm $path
+    check ln -rs $PWD/tmux.conf ~/.tmux.conf
+end
+
 set cmds vimrc vim_plug vim_plugin \
          nvim_init nvim_plug nvim_plugin \
          oh_my_zsh zshrc \
@@ -142,6 +148,8 @@ for cmd in $argv
             fisherman
         case git_config
             git_config
+        case tmux
+            tmux
         case '*'
             echo "The command doesn't exist"
             exit 1
