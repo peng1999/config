@@ -11,14 +11,13 @@ antigen bundle pip
 antigen bundle command-not-found
 antigen bundle colored-man-pages
 antigen bundle z
-antigen bundle extract
 
 # config for z
 export _Z_DATA=$HOME/.local/share/z/data
 
 # Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load the theme.
 antigen theme refined
