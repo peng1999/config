@@ -122,6 +122,14 @@ function tmux
     check ln -rs $PWD/tmux.conf ~/.tmux.conf
 end
 
+function spacemacs
+    set path ~/.emacs.d
+    set url https://github.com/syl20bnr/spacemacs
+    test_not_exist $path; and check git clone --branch develop $url $path
+    try_link $PWD/emacs.d/spacemacs ~/.spacemacs
+    emacs
+end
+
 set cmds vimrc vim_plug vim_plugin \
          nvim_init nvim_plug nvim_plugin \
          oh_my_zsh zshrc \
@@ -154,6 +162,8 @@ for cmd in $argv
             git_config
         case tmux
             tmux
+        case spacemacs
+            spacemacs
         case '*'
             echo "The command doesn't exist"
             exit 1
