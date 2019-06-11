@@ -40,6 +40,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
+     evil-commentary
      auto-completion
      better-defaults
      git
@@ -58,6 +59,7 @@ This function should only modify configuration layer settings."
      (chinese :variables
               chinese-enable-fcitx t)
      javascript
+     coq
      markdown
      )
 
@@ -465,7 +467,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (fcitx-aggressive-setup)
+  (when window-system (fcitx-aggressive-setup))
 
   ;; setup AUCTeX
   ;; (add-hook 'doc-view-mode-hook 'auto-revert-mode)
