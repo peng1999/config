@@ -78,9 +78,13 @@ end
 function nvim_plugin
     nvim_init
     nvim_plug
-    try_link $PWD/vimrc/plugin.vim ~/.vim/plugin.vim
+    set path ~/.config/nvim/layers
+    ensure_dir $path
+    for file in $PWD/vimrc/layers/*
+        try_link $file $path/(basename $file)
+    end
     # echo Install Vim plugins...
-    check 'nvim -c \'execute "PlugInstall" | qa\''
+    # check 'nvim -c \'execute "PlugInstall" | qa\''
 end
 
 function oh_my_zsh
