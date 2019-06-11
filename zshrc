@@ -1,3 +1,7 @@
+if [[ "$TERM" == "dumb" ]]; then
+    return
+fi
+
 # source /usr/share/zsh/share/antigen.zsh
 source ~/.antigen/antigen/antigen.zsh
 
@@ -30,3 +34,5 @@ if which bat >/dev/null; then
     alias cat=bat
 fi
 
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
