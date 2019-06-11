@@ -34,5 +34,7 @@ if which bat >/dev/null; then
     alias cat=bat
 fi
 
+# emacsclient
+alias ec='emacsclient -ca ""'
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
