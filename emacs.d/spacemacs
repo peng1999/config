@@ -532,42 +532,32 @@ This function is called at the very end of Spacemacs initialization."
  '(markdown-enable-math t)
  '(markdown-fontify-code-blocks-natively t)
  '(org-agenda-files (quote ("~/org/agenda.org")))
+ '(org-export-initial-scope (quote subtree))
  '(org-format-latex-options
    (quote
-    (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+    (:foreground default :background default :scale 2 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-journal-date-format "%Y-%m-%d")
  '(org-journal-file-type (quote yearly))
  '(org-latex-compiler "xelatex")
  '(org-latex-compiler-file-string "%% -*- LaTeX-command: %s -*-
 ")
- '(org-latex-default-packages-alist
-   (quote
-    (("AUTO" "inputenc" t
-      ("pdflatex"))
-     ("T1" "fontenc" t
-      ("pdflatex"))
-     ("" "graphicx" t nil)
-     ("" "grffile" t nil)
-     ("" "longtable" nil nil)
-     ("" "wrapfig" nil nil)
-     ("" "rotating" nil nil)
-     ("normalem" "ulem" t nil)
-     ("" "amsmath" t nil)
-     ("" "textcomp" t nil)
-     ("" "amssymb" t nil)
-     ("" "capt-of" nil nil)
-     ("" "hyperref" nil nil)
-     ("" "ctex" nil
-      ("xelatex")))))
  '(org-latex-listings t)
+ '(org-latex-packages-alist
+   (quote
+    (("" "ctex" nil)
+     ("" "tikz" t)
+     "\\usetikzlibrary{shapes,arrows,calc}
+\\usetikzlibrary{decorations.pathreplacing}
+\\usetikzlibrary{arrows.meta}")))
+ '(org-preview-latex-default-process (quote dvisvgm))
  '(org-preview-latex-image-directory "/tmp/ltximg/")
  '(org-startup-with-latex-preview t)
+ '(org-use-speed-commands t)
  '(package-selected-packages
    (quote
     (fcitx web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode pyim pyim-basedict pangu-spacing find-by-pinyin-dired ace-pinyin pinyinlib pdf-tools tablist company-auctex auctex unfill mwim helm-company helm-c-yasnippet fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete spinner evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu evil undo-tree adaptive-wrap ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smartparens restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-unimpaired evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-escape goto-chg eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
- '(paradox-github-token t)
- '(preview-TeX-style-dir nil t))
+ '(preview-TeX-style-dir nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
