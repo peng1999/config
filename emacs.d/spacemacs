@@ -103,10 +103,10 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-enable-emacs-pdumper nil
 
-   ;; File path pointing to emacs 27.1 executable compiled with support
-   ;; for the portable dumper (this is currently the branch pdumper).
-   ;; (default "emacs-27.0.50")
-   dotspacemacs-emacs-pdumper-executable-file "emacs-27.0.50"
+   ;; Name of executable file pointing to emacs 27+. This executable must be
+   ;; in your PATH.
+   ;; (default "emacs")
+   dotspacemacs-emacs-pdumper-executable-file "emacs"
 
    ;; Name of the Spacemacs dump file. This is the file will be created by the
    ;; portable dumper in the cache directory under dumps sub-directory.
@@ -162,9 +162,6 @@ It should only modify the values of Spacemacs settings."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
 
-   ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
-
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -184,6 +181,11 @@ It should only modify the values of Spacemacs settings."
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
+
+   ;; Default major mode for a new empty buffer. Possible values are mode
+   ;; names such as `text-mode'; and `nil' to use Fundamental mode.
+   ;; (default `text-mode')
+   dotspacemacs-new-empty-buffer-major-mode 'text-mode
 
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
@@ -211,10 +213,9 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
-   ;; quickly tweak the mode-line size to make separators look not too crappy.
+   ;; Default font or prioritized list of fonts.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 14.0
+                               :size 15.0
                                :weight normal
                                :width normal)
 
@@ -349,10 +350,14 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smooth-scrolling t
 
    ;; Control line numbers activation.
-   ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
-   ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
+   ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
+   ;; `prog-mode' and `text-mode' derivatives. If set to `relative', line
+   ;; numbers are relative. If set to `visual', line numbers are also relative,
+   ;; but lines are only visual lines are counted. For example, folded lines
+   ;; will not be counted and wrapped lines are counted as multiple lines.
    ;; This variable can also be set to a property list for finer control:
    ;; '(:relative nil
+   ;;   :visual nil
    ;;   :disabled-for-modes dired-mode
    ;;                       doc-view-mode
    ;;                       markdown-mode
@@ -360,6 +365,7 @@ It should only modify the values of Spacemacs settings."
    ;;                       pdf-view-mode
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
+   ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
    dotspacemacs-line-numbers nil
 
@@ -372,7 +378,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smartparens-strict-mode nil
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
 
@@ -497,14 +503,6 @@ before packages are loaded."
   (add-to-list 'auto-mode-alist '("\\.ma[cx]" . maxima-mode))
   )
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -528,8 +526,8 @@ This function is called at the very end of Spacemacs initialization."
      (output-html "xdg-open"))))
  '(cnfonts-personal-fontnames (quote (nil nil ("Source Han Sans CN"))))
  '(evil-want-Y-yank-to-eol nil)
- '(imaxima-fnt-size "LARGE")
  '(evil-want-abbrev-expand-on-insert-exit nil)
+ '(imaxima-fnt-size "LARGE")
  '(markdown-enable-math t)
  '(markdown-fontify-code-blocks-natively t)
  '(org-agenda-files (quote ("~/org/agenda.org")))
@@ -542,6 +540,18 @@ This function is called at the very end of Spacemacs initialization."
  '(org-journal-file-type (quote yearly))
  '(org-latex-compiler "xelatex")
  '(org-latex-compiler-file-string "%% -*- LaTeX-command: %s -*-
+")
+ '(org-latex-hyperref-template
+   "\\hypersetup{
+ colorlinks,
+ urlcolor=blue,
+ linkcolor=blue,
+ pdfauthor={%a},
+ pdftitle={%t},
+ pdfkeywords={%k},
+ pdfsubject={%d},
+ pdfcreator={%c},
+ pdflang={%L}}
 ")
  '(org-latex-listings t)
  '(org-latex-packages-alist
