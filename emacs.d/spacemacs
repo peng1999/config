@@ -45,6 +45,7 @@ This function should only modify configuration layer settings."
      better-defaults
      git
      neotree
+     ranger
      (org :variables
           org-enable-org-journal-support t)
      emacs-lisp
