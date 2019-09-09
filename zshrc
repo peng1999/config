@@ -19,6 +19,8 @@ antigen bundle z
 # config for z
 export _Z_DATA=$HOME/.local/share/z/data
 
+antigen bundle  esc/conda-zsh-completion
+
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
