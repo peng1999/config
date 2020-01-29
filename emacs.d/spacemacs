@@ -477,6 +477,8 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (when (or (display-graphic-p) (getenv "DISPLAY"))
     (message "Graphics Setup...")
+    (when (string= (getenv "QT_IM_MODULE") "fcitx5")
+      (setq fcitx-remote-command "fcitx5-remote"))
     (fcitx-aggressive-setup)
     (fcitx-prefix-keys-add "M-RET" "M-m")
     (cnfonts-enable))
@@ -530,7 +532,6 @@ This function is called at the very end of Spacemacs initialization."
  '(markdown-enable-math t)
  '(markdown-fontify-code-blocks-natively t)
  '(org-agenda-files (quote ("~/org/agenda.org")))
- '(org-export-initial-scope (quote subtree))
  '(org-format-latex-options
    (quote
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
@@ -555,11 +556,13 @@ This function is called at the very end of Spacemacs initialization."
  '(org-latex-listings t)
  '(org-latex-packages-alist
    (quote
-    (("" "ctex" nil)
+    (("" "xeCJK" nil)
      ("" "tikz" t)
      "\\usetikzlibrary{shapes,arrows,calc}
 \\usetikzlibrary{decorations.pathreplacing}
-\\usetikzlibrary{arrows.meta}")))
+\\usetikzlibrary{arrows.meta}"
+     ("" "booktabs" t))))
+ '(org-latex-tables-booktabs t)
  '(org-preview-latex-default-process (quote dvisvgm))
  '(org-preview-latex-image-directory "/tmp/ltximg/")
  '(org-startup-with-latex-preview t)
