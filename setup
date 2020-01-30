@@ -50,6 +50,11 @@ end
 
 function nvim_init
     ensure_dir ~/.local/share/nvim/undo
+    echo -n "run "
+    set_color -o
+    echo -n "git submodule update --remote"
+    set_color normal
+    echo " to acquire latest vim init file"
     try_link $PWD/vimrc/vimrc ~/.config/nvim/init.vim
 end
 
@@ -83,8 +88,10 @@ function nvim_plugin
     for file in $PWD/vimrc/layers/*
         try_link $file $path/(basename $file)
     end
-    # echo Install Vim plugins...
-    # check 'nvim -c \'execute "PlugInstall" | qa\''
+    set_color -o yellow
+    echo Please delete unneeded layers in ~/.config/nvim/layers
+    echo and run :PlugInstall in nvim.
+    set_color normal
 end
 
 function oh_my_zsh
