@@ -10,8 +10,10 @@ antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle git
-antigen bundle cargo
+antigen bundle rust
 antigen bundle pip
+antigen bundle dotnet
+antigen bundle docker
 antigen bundle command-not-found
 antigen bundle colored-man-pages
 antigen bundle z
@@ -30,6 +32,8 @@ antigen theme refined
 
 # Tell Antigen that you're done.
 antigen apply
+
+setopt nomultios
 
 if which bat >/dev/null; then
     export BAT_STYLE=plain
