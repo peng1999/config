@@ -14,7 +14,10 @@ function test_not_exist -a dir
     if test ! -e $dir
         return 0
     else
-        echo $dir exists!
+        set_color -o
+        echo -n Warning: 
+        set_color normal
+        echo $dir exists, I will not touch it, and script may not execute currectly.
         return 1
     end
 end
@@ -90,6 +93,7 @@ function nvim_plugin
     end
     set_color -o yellow
     echo Please delete unneeded layers in ~/.config/nvim/layers
+    echo At least delete one of coc.vim or languageclient.vim
     echo and run :PlugInstall in nvim.
     set_color normal
 end
