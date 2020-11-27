@@ -27,8 +27,12 @@ antigen bundle  esc/conda-zsh-completion
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
-# Load the theme.
-antigen theme refined
+if command -v starship >/dev/null; then
+    eval "$(starship init zsh)"
+else
+    # Load the theme.
+    antigen theme refined
+fi
 
 # Tell Antigen that you're done.
 antigen apply
@@ -43,4 +47,4 @@ fi
 # emacsclient
 alias ec='emacsclient -ca ""'
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$HOME/.config/yarn/global/node_modules/.bin:$PATH"
