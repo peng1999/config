@@ -1,12 +1,23 @@
 #!/usr/bin/fish
-#make -f install.mk $argv
+
+set cmds vimrc vim_plug vim_plugin \
+         nvim_init nvim_plug nvim_plugin \
+         oh_my_zsh zshrc \
+         config.fish fisherman tide_config \
+         git_config
+
+if status --is-interactive
+    complete -x -c setup -a "$cmds"
+    exit
+end
+
 function check
     echo $argv
     eval $argv
     set s $status
     if not test $s = 0
-	echo not 0
-	exit $s
+        echo (set_color red)command not return 0, exit...(set_color normal)
+        exit $s
     end
 end
 
@@ -14,31 +25,18 @@ function test_not_exist -a dir
     if test ! -e $dir
         return 0
     else
-        set_color -o
-        echo -n Warning: 
-        set_color normal
-        echo $dir exists, I will not touch it, and script may not execute currectly.
+        echo -n (set_color -o)"Warning: "(set_color normal)
+        echo $dir exists, I will not touch it, and the script may not execute currectly.
         return 1
     end
 end
 
 function ensure_dir -a dir
-    # if not test -e $dir
-    #     echo "$dir don't exist, creat it"
-    #     mkdir -p $dir
-    # end
     test_not_exist $dir
     and check mkdir -p $dir
 end
 
 function try_link -a src dist
-    # if test -e $dist
-    #     echo $dist already exists, skiped
-    # else
-    #     ensure_dir (dirname $dist)
-    #     echo link $dist to $src...
-    #     ln -rs $src $dist
-    # end
     test_not_exist $dist; or return
 
     ensure_dir (dirname $dist)
@@ -119,8 +117,18 @@ function fisherman
         echo command fisher exists, skiped
     else
         echo getting fisherman...
-        curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
+        curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
     end
+end
+
+function tide_config
+    if not type -q tide
+        echo (set_color red)tide not exists! exit...(set_color normal)
+        exit 1
+    end
+    set --universal tide_pwd_anchors last git
+    set --universal tide_pwd_truncate_margin 50
+    set --universal tide_left_prompt_items pwd git_prompt rust newline prompt_char
 end
 
 function git_config
@@ -141,42 +149,11 @@ function spacemacs
     emacs
 end
 
-set cmds vimrc vim_plug vim_plugin \
-         nvim_init nvim_plug nvim_plugin \
-         oh_my_zsh zshrc \
-         config.fish fisherman \
-         git_config
-
-complete -x -c setup -a "$cmds"
-
 for cmd in $argv
-    switch $cmd
-        case vimrc
-            vimrc
-        case vim_plug
-            vim_plug
-        case nvim_init
-            nvim_init
-        case vim_plugin
-            vim_plugin
-        case nvim_plugin
-            nvim_plugin
-        case oh_my_zsh
-            oh_my_zsh
-        case zshrc
-            zshrc
-        case config.fish
-            config.fish
-        case fisherman
-            fisherman
-        case git_config
-            git_config
-        case tmux
-            tmux
-        case spacemacs
-            spacemacs
-        case '*'
-            echo "The command doesn't exist"
-            exit 1
+    if contains $cmd $cmds
+        $cmd
+    else
+        echo "Command $cmd doesn't exist"
+        exit 1
     end
 end
