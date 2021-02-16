@@ -4,7 +4,8 @@ set cmds vimrc vim_plug vim_plugin \
          nvim_init nvim_plug nvim_plugin \
          oh_my_zsh zshrc \
          config.fish fisherman tide_config \
-         git_config
+         git_config \
+         tmux spacemacs
 
 if status --is-interactive
     complete -x -c setup -a "$cmds"
@@ -26,7 +27,7 @@ function test_not_exist -a dir
         return 0
     else
         echo -n (set_color -o)"Warning: "(set_color normal)
-        echo $dir exists, I will not touch it, and the script may not execute currectly.
+        echo `$dir` exists, I will not touch it, and the script may not execute currectly.
         return 1
     end
 end
@@ -138,6 +139,7 @@ end
 function tmux
     set path ~/.tmux/plugins/tpm
     test_not_exist $path; and check git clone https://github.com/tmux-plugins/tpm $path
+    check ln -rs $PWD/tmux/theme.conf ~/.tmux/theme.conf
     check ln -rs $PWD/tmux.conf ~/.tmux.conf
 end
 
