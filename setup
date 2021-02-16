@@ -128,7 +128,7 @@ function tide_config
     end
     set --universal tide_pwd_anchors last git
     set --universal tide_pwd_truncate_margin 50
-    set --universal tide_left_prompt_items pwd git_prompt rust newline prompt_char
+    set --universal tide_right_prompt_items status cmd_duration context jobs rust nvm virtual_env time
 end
 
 function git_config
