@@ -127,9 +127,13 @@ function tide_config
         echo (set_color red)tide not exists! exit...(set_color normal)
         exit 1
     end
-    set --universal tide_pwd_anchors last git
+    for name in tide_pwd_truncate_margin
+        if not set -q -U $name
+            echo (set_color red)variable \$$name not exists! exit...(set_color normal)
+            exit 1
+        end
+    end
     set --universal tide_pwd_truncate_margin 50
-    set --universal tide_right_prompt_items status cmd_duration context jobs rust nvm virtual_env time
 end
 
 function git_config
