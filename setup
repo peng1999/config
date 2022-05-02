@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 set cmds vimrc vim_plug vim_plugin \
-         nvim_init nvim_plug nvim_plugin \
+         nvim_init nvim_plug nvim_plugin nvim_lua \
          oh_my_zsh zshrc \
          config.fish fisherman tide_config \
          git_config \
@@ -95,6 +95,20 @@ function nvim_plugin
     echo At least delete one of coc.vim or languageclient.vim
     echo and run :PlugInstall in nvim.
     set_color normal
+end
+
+function nvim_lua
+    ensure_dir ~/.local/share/nvim/undo
+    echo -n "run "
+    set_color -o
+    echo -n "git submodule update --remote"
+    set_color normal
+    echo " to acquire latest vim init file"
+    set path ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+    if test_not_exist $path
+        check git clone --depth 1 https://github.com/wbthomason/packer.nvim $path
+    end
+    try_link $PWD/vimrc/init.lua ~/.config/nvim/init.lua
 end
 
 function oh_my_zsh
