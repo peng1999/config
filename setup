@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 set cmds vimrc vim_plug vim_plugin \
          nvim_init nvim_plug nvim_plugin \
