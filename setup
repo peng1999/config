@@ -41,7 +41,7 @@ function try_link -a src dist
     test_not_exist $dist; or return
 
     ensure_dir (dirname $dist)
-    check ln -rs $src $dist
+    check ln -s $src $dist
 end
 
 function vimrc
@@ -105,7 +105,7 @@ end
 
 function zshrc
     oh_my_zsh
-    check ln -rs $PWD/zshrc ~/.zshrc
+    check ln -s $PWD/zshrc ~/.zshrc
 end
 
 function config.fish
@@ -143,8 +143,8 @@ end
 function tmux
     set path ~/.tmux/plugins/tpm
     test_not_exist $path; and check git clone https://github.com/tmux-plugins/tpm $path
-    check ln -rs $PWD/tmux/theme.conf ~/.tmux/theme.conf
-    check ln -rs $PWD/tmux.conf ~/.tmux.conf
+    check ln -s $PWD/tmux/theme.conf ~/.tmux/theme.conf
+    check ln -s $PWD/tmux.conf ~/.tmux.conf
 end
 
 function spacemacs
