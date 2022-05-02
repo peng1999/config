@@ -12,6 +12,8 @@ if status --is-interactive
     exit
 end
 
+set currentdir (realpath (dirname (status --current-filename)))
+
 function check
     echo $argv
     eval $argv
@@ -26,7 +28,7 @@ function test_not_exist -a dir
     if test ! -e $dir
         return 0
     else
-        echo -n (set_color -o)"Warning: "(set_color normal)
+        echo -n (set_color -o)"warning: "(set_color normal)
         echo `$dir` exists, I will not touch it, and the script may not execute currectly.
         return 1
     end
@@ -47,7 +49,7 @@ end
 function vimrc
     ensure_dir ~/tmp/vimundo
     ensure_dir ~/tmp/vimbackup
-    try_link $PWD/vimrc/vimrc ~/.vim/vimrc
+    try_link $currentdir/vimrc/vimrc ~/.vim/vimrc
 end
 
 function nvim_init
@@ -57,7 +59,7 @@ function nvim_init
     echo -n "git submodule update --remote"
     set_color normal
     echo " to acquire latest vim init file"
-    try_link $PWD/vimrc/vimrc ~/.config/nvim/init.vim
+    try_link $currentdir/vimrc/vimrc ~/.config/nvim/init.vim
 end
 
 function vim_plug
@@ -70,7 +72,7 @@ end
 function vim_plugin
     vimrc
     vim_plug
-    try_link $PWD/vimrc/plugin.vim ~/.vim/plugin.vim
+    try_link $currentdir/vimrc/plugin.vim ~/.vim/plugin.vim
     # echo Install Vim plugins...
     check 'vim -c \'execute "PlugInstall" | qa\''
 end
@@ -87,7 +89,7 @@ function nvim_plugin
     nvim_plug
     set path ~/.config/nvim/layers
     ensure_dir $path
-    for file in $PWD/vimrc/layers/*
+    for file in $currentdir/vimrc/layers/*
         try_link $file $path/(basename $file)
     end
     set_color -o yellow
@@ -108,7 +110,7 @@ function nvim_lua
     if test_not_exist $path
         check git clone --depth 1 https://github.com/wbthomason/packer.nvim $path
     end
-    try_link $PWD/vimrc/init.lua ~/.config/nvim/init.lua
+    try_link $currentdir/vimrc/init.lua ~/.config/nvim/init.lua
 end
 
 function oh_my_zsh
@@ -119,11 +121,11 @@ end
 
 function zshrc
     oh_my_zsh
-    check ln -s $PWD/zshrc ~/.zshrc
+    check ln -s $currentdir/zshrc ~/.zshrc
 end
 
 function config.fish
-    try_link $PWD/config.fish ~/.config/fish/config.fish
+    try_link $currentdir/config.fish ~/.config/fish/config.fish
 end
 
 function fisherman
@@ -157,15 +159,15 @@ end
 function tmux
     set path ~/.tmux/plugins/tpm
     test_not_exist $path; and check git clone https://github.com/tmux-plugins/tpm $path
-    check ln -s $PWD/tmux/theme.conf ~/.tmux/theme.conf
-    check ln -s $PWD/tmux.conf ~/.tmux.conf
+    check ln -s $currentdir/tmux/theme.conf ~/.tmux/theme.conf
+    check ln -s $currentdir/tmux.conf ~/.tmux.conf
 end
 
 function spacemacs
     set path ~/.emacs.d
     set url https://github.com/syl20bnr/spacemacs
     test_not_exist $path; and check git clone --branch develop $url $path
-    try_link $PWD/emacs.d/spacemacs ~/.spacemacs
+    try_link $currentdir/emacs.d/spacemacs ~/.spacemacs
     emacs
 end
 
