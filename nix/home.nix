@@ -1,6 +1,15 @@
 { config, pkgs, pkgsStable, ... }:
 
-{
+# Add addToHomePacakges.<name> to home.packages
+let mergeAdditionalHomePackages =
+  config:
+    with builtins;
+    removeAttrs config [ "addToHomePacakges" ]
+    // {
+      home.packages = config.home.packages ++ concatLists (attrValues config.addToHomePacakges);
+    };
+in
+mergeAdditionalHomePackages {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "pgw";
@@ -8,6 +17,7 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    lsof
   ];
 
   # This value determines the Home Manager release that your
@@ -27,7 +37,13 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  programs.fish.enable = true;
+  addToHomePacakges.fish = [ pkgs.any-nix-shell ];
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      any-nix-shell fish --info-right | source
+    '';
+  };
 
   programs.neovim = {
     enable = true;
@@ -39,10 +55,8 @@
     '';
     extraPackages = with pkgs; [
       gcc
-      # sumneko-lua-language-server
+      sumneko-lua-language-server
       rnix-lsp
-    ] ++ [
-      pkgsStable.sumneko-lua-language-server
     ];
   };
 
@@ -69,6 +83,7 @@
     extraConfig = {
       pull.ff = "only";
       http."https://github.com".proxy = "http://ipads:ipads123@202.120.40.82:11235";
+      credential.helper = "cache --timeout=86400";
     };
   };
 
