@@ -1,13 +1,31 @@
-{ config, pkgs, pkgsStable, ... }:
+{ config, lib, pkgs, pkgsStable, ... }:
 
-# Add addToHomePacakges.<name> to home.packages
-let mergeAdditionalHomePackages =
-  config:
-    with builtins;
+with builtins;
+let
+  inherit (lib) mkIf;
+  inherit (lib.trivial) warnIf;
+  nixProjectPath = "${config.home.homeDirectory}/.dotfiles/nix";
+  # Add addToHomePacakges.<name> to home.packages
+  mergeAdditionalHomePackages = config:
     removeAttrs config [ "addToHomePacakges" ]
     // {
-      home.packages = config.home.packages ++ concatLists (attrValues config.addToHomePacakges);
+      home.packages =
+        config.home.packages ++ concatLists (attrValues config.addToHomePacakges);
     };
+  # Get value in credentials.nix if exists
+  optionalGetCredential = key:
+    let
+      credentialsPath = "${nixProjectPath}/credentials.nix";
+      credentials = import credentialsPath;
+      value = getAttr key credentials;
+
+      testPath = pathExists credentialsPath;
+      testKey = hasAttr key credentials;
+      enable =
+        warnIf (!testPath) "can not find ${credentialsPath}, try add --impure flag" testPath
+        && warnIf (!testKey) "`credential.${key}` not exists" testKey;
+    in
+    mkIf enable value;
 in
 mergeAdditionalHomePackages {
   # Home Manager needs a bit of information about you and the
@@ -45,6 +63,8 @@ mergeAdditionalHomePackages {
     '';
   };
 
+  xdg.configFile."nvim/_init.lua".source = config.lib.file.mkOutOfStoreSymlink "${nixProjectPath}/../vimrc/init.lua";
+  xdg.configFile."nvim/lua".source = config.lib.file.mkOutOfStoreSymlink "${nixProjectPath}/../vimrc/lua/";
   programs.neovim = {
     enable = true;
     extraConfig = ''
@@ -82,7 +102,7 @@ mergeAdditionalHomePackages {
     userName = "Peng Guanwen";
     extraConfig = {
       pull.ff = "only";
-      http."https://github.com".proxy = "http://ipads:ipads123@202.120.40.82:11235";
+      http."https://github.com".proxy = optionalGetCredential "httpProxy";
       credential.helper = "cache --timeout=86400";
     };
   };
