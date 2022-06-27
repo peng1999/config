@@ -36,6 +36,8 @@ mergeAdditionalHomePackages {
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     lsof
+    ripgrep
+    python3
   ];
 
   # This value determines the Home Manager release that your
@@ -58,9 +60,9 @@ mergeAdditionalHomePackages {
   addToHomePacakges.fish = [ pkgs.any-nix-shell ];
   programs.fish = {
     enable = true;
-    interactiveShellInit = ''
-      any-nix-shell fish --info-right | source
-    '';
+    # interactiveShellInit = ''
+    #   any-nix-shell fish --info-right | source
+    # '';
   };
 
   xdg.configFile."nvim/_init.lua".source = config.lib.file.mkOutOfStoreSymlink "${nixProjectPath}/../vimrc/init.lua";
@@ -74,9 +76,16 @@ mergeAdditionalHomePackages {
       endif
     '';
     extraPackages = with pkgs; [
+      # for tree-sitter to compile
       gcc
+      # for lua lsp
       sumneko-lua-language-server
+      # for nix lsp
       rnix-lsp
+      # for python lsp
+      nodePackages.pyright
+      # for copilot
+      nodejs
     ];
   };
 
